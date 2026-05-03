@@ -1,4 +1,4 @@
-import  Course from './course/Course.jsx';
+import Course from './course/Course';
 
 const App = () => {
   const courses = [
@@ -48,9 +48,9 @@ const App = () => {
 
   return (
     <div>
-      {courses.map(course => (
-        <Course key={course.id} course={course} />
-      ))}
+      {courses.map(course=>
+        <Course key={course.id} course={course}/>
+      )}
     </div>
   )
 }
