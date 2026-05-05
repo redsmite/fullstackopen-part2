@@ -5,13 +5,13 @@ const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook }) 
         const personExists = phonebook.some(person => person.name === newPhonebook.name)
 
         if (personExists){
-        alert(`${newPhonebook.name} is already added to phonebook`)
-        return
-        }
-        const newObject = {
-        name: newPhonebook.name,
-        number: newPhonebook.number,
-        id: phonebook.length+1,
+            alert(`${newPhonebook.name} is already added to phonebook`)
+            return
+            }
+            const newObject = {
+            name: newPhonebook.name,
+            number: newPhonebook.number,
+            id: phonebook.length+1,
         }
         setPhonebook(phonebook.concat(newObject))
         setnewPhonebook({name:'',number:''})
