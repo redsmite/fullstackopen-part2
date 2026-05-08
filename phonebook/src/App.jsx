@@ -1,12 +1,24 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
+import axios from 'axios'
 
 const App = () => {
   const [phonebook, setPhonebook] = useState([])
   const [newPhonebook, setnewPhonebook] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+
+  const hook = () =>{
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response=>{
+          setPhonebook(response.data)
+        }
+      )
+  }
+
+  useEffect(hook,[])
   
   const filteredPhoneBook = searchTerm === '' 
     ? phonebook 
