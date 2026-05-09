@@ -1,20 +1,46 @@
+import phoneService from "../phoneService"
+
 const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook }) => {
     const handleSubmit = (event) =>{
         event.preventDefault()
-        console.log(newPhonebook)
         const personExists = phonebook.some(person => person.name === newPhonebook.name)
 
-        if (personExists){
-            alert(`${newPhonebook.name} is already added to phonebook`)
-            return
-            }
-            const newObject = {
+        const newObject = {
             name: newPhonebook.name,
             number: newPhonebook.number,
-            id: phonebook.length+1,
         }
-        setPhonebook(phonebook.concat(newObject))
-        setnewPhonebook({name:'',number:''})
+
+        if (personExists){
+            if(window.confirm(`${newPhonebook.name} is already added to phonebook, replace the old number with the new one?`)){
+                const userUpdate = phonebook.find(n=>n.name===newPhonebook.name)
+                const userUpdateId = userUpdate.id 
+                phoneService
+                    .update(userUpdateId, newObject)
+                    .then(returnedOject=>
+                        setPhonebook(phonebook.map(phone=>phone.id===userUpdateId?returnedOject:phone))
+                    )
+                setnewPhonebook({
+                    name : '',
+                    number : '',
+                })
+                return
+            }else{
+                console.log('failed to add')
+                return
+            }
+            
+        }
+        
+        phoneService
+            .create(newObject)
+            .then(returnedOject=>
+                setPhonebook(phonebook.concat(returnedOject))
+            )
+        setnewPhonebook({
+            name : '',
+            number : '',
+        })
+
     }
 
     const handleNameInputChange = (event) => {

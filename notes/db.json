@@ -16,14 +16,9 @@
       "important": false
     },
     {
-      "content": "POST Test",
-      "important": false,
-      "id": "BkmIOppIZQI"
-    },
-    {
-      "content": "This is a new note",
-      "important": false,
-      "id": "1CNoRHK2GQg"
+      "content": "This is a test POST",
+      "important": true,
+      "id": "xC_2ExseW88"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

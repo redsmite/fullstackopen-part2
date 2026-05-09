@@ -1,7 +1,6 @@
-import Note from './component/Notes'
+import noteService from './noteService.js'
+import Note from './component/Notes.jsx'
 import {useState, useEffect} from 'react'
-import axios from 'axios'
-import noteService from './noteService'
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -13,60 +12,58 @@ const App = () => {
       .getAll()
       .then(initialNotes=>
         setNotes(initialNotes)
-      )}, []
-  )
+    )
+  },[])
 
-  const handleSubmit = event => {
-    event.preventDefault()
+  const handleSubmit = e => {
+    e.preventDefault()
     const newObject = {
-      content : newNotes,
-      important : Math.random() > 0.5,
+      content: newNotes,
+      important: Math.random() > 0.5,
     }
     noteService
       .create(newObject)
-      .then(returnedNote=>
-        setNotes(notes.concat(returnedNote))
+      .then(returnedObject=>
+        setNotes(notes.concat(returnedObject))
       )
     setNewNotes('')
   }
 
-  const handleNoteChange = event => {
-    const inputVal = event.target.value
-    setNewNotes(inputVal)
+  const handleNoteChange = e =>{
+    const input = e.target.value
+    setNewNotes(input)
   }
 
-  const filterNotes = showAll ?
+  const filteredNotes = showAll ?
     notes :
-    notes.filter(n=>n.important)
+    notes.filter(filter=>filter.important)
 
   const toggleImportant = id => {
     const note = notes.find(n=>n.id===id)
-    const changedNote = {...note, important : !note.important}
+    const changedNote = {...note, important: !note.important}
+
     noteService
-      .update(id, changedNote)
-      .then(returnedNote=>
-        setNotes(notes.map(n=>n.id===id?returnedNote:n))
+      .update(id,changedNote)
+      .then(returnedObject=>
+        setNotes(notes.map(n=>n.id===id?returnedObject:n))
       )
   }
 
   return(
     <div>
       <h1>Notes</h1>
-      <button onClick={()=>setShowAll(!showAll)}>show {showAll ? 'important': 'all'}</button>
+      <button onClick={()=>setShowAll(!showAll)}>show {showAll? 'important' : 'all'}</button>
       <ul>
-        {
-        filterNotes.map(note=>
-        <Note 
-          key={note.id} 
-          toggleImportant={()=>toggleImportant(note.id)}
-          note={note}
-        />)
-        }
+        {filteredNotes.map(note=>
+          <Note 
+            key={note.id} 
+            note={note}
+            toggleImportant={()=>toggleImportant(note.id)}/> 
+        )}
       </ul>
-
       <div>
         <form onSubmit={handleSubmit}>
-          <input value={newNotes} onChange={handleNoteChange}/>
+          <input value={newNotes} onChange={handleNoteChange} />
           <button type="submit">Save</button>
         </form>
       </div>

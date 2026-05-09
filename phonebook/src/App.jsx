@@ -2,23 +2,20 @@ import {useState, useEffect} from 'react'
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
-import axios from 'axios'
+import phoneService from './phoneService';
 
 const App = () => {
   const [phonebook, setPhonebook] = useState([])
   const [newPhonebook, setnewPhonebook] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
 
-  const hook = () =>{
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response=>{
-          setPhonebook(response.data)
-        }
+  useEffect(()=>{
+    phoneService
+      .getAll()
+      .then(initialPhone=>
+        setPhonebook(initialPhone)
       )
-  }
-
-  useEffect(hook,[])
+  },[])
   
   const filteredPhoneBook = searchTerm === '' 
     ? phonebook 
@@ -39,7 +36,11 @@ const App = () => {
         setnewPhonebook={setnewPhonebook}
     />  
 
-    <Persons phonebook={filteredPhoneBook}/>
+    <Persons 
+      phonebook={phonebook}
+      setPhonebook={setPhonebook}
+      filteredPhonebook={filteredPhoneBook}
+    />
 
   </div>
  )
