@@ -3,41 +3,12 @@
     {
       "id": "1",
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
-      "0": {
-        "id": "1",
-        "content": "HTML is easy",
-        "important": true
-      },
-      "1": {
-        "id": "2",
-        "content": "Browser can execute only JavaScript",
-        "important": false
-      },
-      "2": {
-        "id": "3",
-        "content": "GET and POST are the most important methods of HTTP protocol",
-        "important": true
-      },
-      "3": {
-        "content": "test",
-        "important": true,
-        "id": "0abHiFODLM4"
-      },
-      "4": {
-        "content": "Save As",
-        "important": false,
-        "id": "IKH3VN441kU"
-      },
-      "5": {
-        "content": "save test",
-        "important": false,
-        "id": "dCXOBgF1d8M"
-      },
-      "important": false,
-      "id": "2"
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
     },
     {
       "id": "3",
@@ -45,19 +16,14 @@
       "important": false
     },
     {
-      "content": "test",
+      "content": "POST Test",
       "important": false,
-      "id": "0abHiFODLM4"
+      "id": "BkmIOppIZQI"
     },
     {
-      "content": "Save As",
-      "important": true,
-      "id": "IKH3VN441kU"
-    },
-    {
-      "content": "save test",
+      "content": "This is a new note",
       "important": false,
-      "id": "dCXOBgF1d8M"
+      "id": "1CNoRHK2GQg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
