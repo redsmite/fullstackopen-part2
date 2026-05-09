@@ -1,6 +1,6 @@
 import phoneService from "../phoneService"
 
-const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook }) => {
+const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook, notification, setNotification }) => {
     const handleSubmit = (event) =>{
         event.preventDefault()
         const personExists = phonebook.some(person => person.name === newPhonebook.name)
@@ -23,6 +23,10 @@ const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook }) 
                     name : '',
                     number : '',
                 })
+                setNotification(`Updated ${newObject.name}`)
+                setTimeout(()=>{
+                    setNotification(null)
+                },5000)
                 return
             }else{
                 console.log('failed to add')
@@ -40,6 +44,11 @@ const PersonForm = ({ phonebook, newPhonebook, setnewPhonebook, setPhonebook }) 
             name : '',
             number : '',
         })
+        
+        setNotification(`Added ${newObject.name}`)
+        setTimeout(()=>{
+            setNotification(null)
+        },5000)
 
     }
 
