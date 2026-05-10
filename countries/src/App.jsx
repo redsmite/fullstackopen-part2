@@ -1,68 +1,72 @@
 import data from './data'
-import { useState, useEffect } from 'react'
+import {useState, useEffect} from 'react'
 
-const App = () => {
-  const [country, setCountry] = useState([])
-  const [search, setSearch] = useState('')
+const App = () =>{
+  const [ countryAll, setCountryAll ] = useState([])
+  const [ search, setSearch ] = useState('')
 
-  useEffect(() => {
-    data.getAll().then(returnedObject => {
-      setCountry(returnedObject)
-    })
-  }, [])
+  useEffect(()=>{
+    data
+      .getAll()
+      .then(returnedObject=>
+        setCountryAll(returnedObject)
+      )
+  },[])
 
-  const handleInputChange = e => {
-    setSearch(e.target.value)
-  }
+  const handleFilterChange = e => setSearch(e.target.value)
 
-  const countriesToShow = country.filter(c =>
-    c.name.common.toLowerCase().includes(search.toLowerCase())
+  const filteredCountry = countryAll.filter(country=>
+    country.name.common.toLowerCase().includes(search.toLowerCase())
   )
 
-  // Logic to determine what to display
-  const renderContent = () => {
-    if (search === '') return null
-    
-    if (countriesToShow.length > 10) {
-      return <p>Too many matches, specify another filter</p>
+  const renderResult = () => {
+    if (!search) {
+      return null
     }
 
-    if (countriesToShow.length === 1) {
-      const c = countriesToShow[0]
+    if (filteredCountry.length >= 10) {
+      return <p>Too many matches, specify another filter</p>
+    } 
+    
+    if (filteredCountry.length > 1 && filteredCountry.length < 10) {
       return (
-        <div>
+        filteredCountry.map(c=>
+          <p key={c.ccn3}>{c.name.common}</p>
+        )
+      ) 
+    }
+
+    if (filteredCountry.length === 1){
+      const c = filteredCountry[0]
+      return (
+        <>
           <h1>{c.name.common}</h1>
-          <p>capital {c.capital}</p>
-          <p>area {c.area}</p>
-          
-          <h3>languages:</h3>
+          <p>Capital: {c.capital}</p>
+          <p>Area: {c.area} km^2</p>
+          <p>Languages</p>
           <ul>
-            {Object.values(c.languages).map(lang => (
-              <li key={lang}>{lang}</li>
-            ))}
+            {Object.values(c.languages).map(l=>
+              <li key={l}>{l}</li>
+            )}
           </ul>
           <img 
-            src={c.flags.png} 
-            alt={`Flag of ${c.name.common}`} 
-            style={{ width: '150px' }} 
-          />
-        </div>
+          src={c.flags.png}
+          style={{width:"150px", border:"1px solid lightgrey"}}
+           />
+        </>
       )
     }
-
-    return countriesToShow.map(c => (
-      <p key={c.cca3 || c.name.common}>{c.name.common}</p>
-    ))
   }
 
-  return (
+  return(
     <div>
-      <p>
-        find country <input onChange={handleInputChange} value={search} />
-      </p>
-      {renderContent()}
+      <p>find countries <input onChange={handleFilterChange} value={search} /></p>
+      <div>
+        {renderResult()}
+      </div>
     </div>
   )
+
 }
 
 export default App
